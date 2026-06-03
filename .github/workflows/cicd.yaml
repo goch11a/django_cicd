@@ -1,0 +1,60 @@
+name: django CI/CD Pipeline
+
+on: 
+  push:
+    branches: [ main ]
+  pull_request:   
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: admin
+          POSTGRES_DB: postgres
+        ports:
+        - 5432:5432
+
+        options: >-
+          --health-cmd="pg_isready -U admin"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
+
+    - name: install Dependecies  
+      run: |   
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Wait for Postgres
+      run: sleep 10
+      
+    - name: Run Migration
+      run: python manage.py migrate
+      env:
+        DB_NAME: postgres
+        DB_USER: admin
+        DB_USER_PASSWORD: admin
+        DB_HOST: localhost
+        DB_DB_PORT: 5432
+
+    - name: Run Tests
+      run: python manage.py test
+      env:   
+        DB_NAME: postgres
+        DB_USER: admin
+        DB_USER_PASSWORD: admin
+        DB_HOST: localhost
+        DB_DB_PORT: 5432
