@@ -47,7 +47,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -90,9 +89,7 @@ WSGI_APPLICATION = 'CICDproject.wsgi.application'
 
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv("DATABASE_URL")
-    )
+    'default': dj_database_url.parse('postgresql://postgres_d4ll_user:kcuOPPsaCWc9khVgEZsEE6BFIV5lTDZQ@dpg-d8gtr3t8nd3s73bh0k2g-a.frankfurt-postgres.render.com/postgres_d4ll')
 }
 
 
@@ -131,11 +128,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
 STORAGES = {
     # ...
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"
     },
 }
 
