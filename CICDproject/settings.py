@@ -90,8 +90,9 @@ WSGI_APPLICATION = 'CICDproject.wsgi.application'
 
 
 DATABASES = {
-    'default': dj_database_url.parse('postgresql://postgres_ic9z_user:kQMVZF2iOxGgQfPDVrSPUur2xvDdKrtQ@dpg-d8gpcogjo6nc73er4720-a.frankfurt-postgres.render.com/postgres_ic9z')
-        
+    'default': dj_database_url.config(
+        default=os.getenv("DATABASE_URL")
+    )
 }
 
 

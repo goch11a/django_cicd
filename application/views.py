@@ -80,10 +80,10 @@ class OrderViewset(viewsets.ViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-    # def get_permissions(self):                
-    #     permission_classes = [IsAuthenticated]
-    #     return [permission() for permission in permission_classes]
-    permission_classes = [IsAuthenticated]
+    def get_permissions(self):                
+        permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+    
 
 class OrderItemViewset(viewsets.ViewSet):
     def list(self, request):
