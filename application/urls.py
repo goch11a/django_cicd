@@ -12,6 +12,7 @@ root.register(r'orderitem', OrderItemViewset, basename='orderitem')
 
 
 urlpatterns = [
+    path('', home),
     path('api/', include(root.urls)),
     path('login/', obtain_auth_token, name='api-auth-token'),
 ]
